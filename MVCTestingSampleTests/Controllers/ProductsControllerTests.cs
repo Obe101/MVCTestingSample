@@ -28,7 +28,15 @@ namespace MVCTestingSample.Controllers.Tests
             IActionResult result = await prodController.Index();
 
             //Assert
-            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            Assert.IsInstanceOfType(result, typeof(ViewResult)); //Ensure view is returned
+            ViewResult viewResult = result as ViewResult;
+            var model =viewResult.ViewData.Model;
+            Assert.IsInstanceOfType(model, typeof(List<Product>)); // makes sure products list<product> passed to view
+
+            //Ensure all products passes to view
+            List<Product> productModel = model as List<Product>;
+            Assert.AreEqual(3, productModel.Count);
+
         }
 
         private List<Product> GetProducts()
