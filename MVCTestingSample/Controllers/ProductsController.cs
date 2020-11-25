@@ -21,5 +21,21 @@ namespace MVCTestingSample.Controllers
             List<Product> products = await _repo.GetAllProductsAsync();
             return View(products);
         }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Add(Product p)
+        {
+            if (ModelState.IsValid)
+            {
+                await _repo.AddProductAsync(p);
+                return RedirectToAction("Index");
+            }
+            return View(p);
+        }
     }
 }
